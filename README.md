@@ -1,3 +1,5 @@
+
+https://go.screenpal.com/watch/cTfunKnQfkZ
 DL Community Smart Hazard Emission 🚨🌿
 A real-time hazard emission monitoring dashboard built with Streamlit, MongoDB, and Machine Learning.
 This system predicts critical threshold violations in gas and temperature emissions and sends alerts when dangers are detected.
