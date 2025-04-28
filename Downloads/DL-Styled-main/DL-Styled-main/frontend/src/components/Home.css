@@ -1,0 +1,179 @@
+/* Home.css - Futuristic Dashboard */
+:root {
+  --cyber-cyan: #00ffea;
+  --neon-purple: #bc13fe;
+  --matrix-green: #00ff00;
+  --dark-matter: #0a0a0f;
+  --hud-gray: #1a1a24;
+  --terminal-text: #00ff9d;
+  --glow: 0 0 15px;
+}
+
+.dashboard-container {
+  min-height: 100vh;
+  background: radial-gradient(circle at 50% 100%, #0f0f1a 0%, #000000 100%);
+  color: var(--terminal-text);
+  font-family: 'Roboto Mono', monospace;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Cyberpunk Header */
+.dashboard-header {
+  padding: 1.5rem 4rem;
+  background: linear-gradient(145deg, #000000 0%, var(--hud-gray) 100%);
+  border-bottom: 2px solid var(--cyber-cyan);
+  box-shadow: var(--glow) rgba(0, 255, 234, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.logo {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-shadow: var(--glow) var(--cyber-cyan);
+  letter-spacing: 4px;
+  position: relative;
+  
+  &::after {
+    content: '▼';
+    position: absolute;
+    right: -30px;
+    bottom: -5px;
+    font-size: 1.2rem;
+    animation: scan 2s infinite;
+  }
+}
+
+@keyframes scan {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+.main-nav {
+  display: flex;
+  gap: 3rem;
+  
+  a {
+    color: var(--terminal-text);
+    text-decoration: none;
+    padding: 0.8rem 1.5rem;
+    border: 1px solid var(--cyber-cyan);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(0, 255, 234, 0.2),
+        transparent
+      );
+      transition: 0.5s;
+    }
+    
+    &:hover {
+      box-shadow: var(--glow) var(--cyber-cyan);
+      
+      &::before {
+        left: 100%;
+      }
+    }
+  }
+}
+
+/* HUD Interface */
+.dashboard-content {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 3rem;
+  padding: 3rem 4rem;
+  min-height: calc(100vh - 120px);
+}
+
+.dashboard-sidebar {
+  background: rgba(10, 10, 15, 0.9);
+  border: 1px solid var(--cyber-cyan);
+  border-radius: 8px;
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+  box-shadow: var(--glow) rgba(0, 255, 234, 0.1);
+  
+  .nav-card h2 {
+    color: var(--cyber-cyan);
+    border-bottom: 2px solid;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+  }
+}
+
+.dashboard-nav li a {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.2rem;
+  margin-bottom: 1.5rem;
+  background: rgba(0, 255, 234, 0.05);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: rgba(0, 255, 234, 0.15);
+    transform: translateX(10px);
+    box-shadow: var(--glow) rgba(0, 255, 234, 0.1);
+  }
+}
+
+.main-content {
+  background: rgba(10, 10, 15, 0.8);
+  border: 1px solid var(--cyber-cyan);
+  border-radius: 8px;
+  padding: 2.5rem;
+  backdrop-filter: blur(10px);
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(
+      45deg,
+      var(--cyber-cyan),
+      transparent,
+      var(--neon-purple)
+    );
+    z-index: -1;
+    border-radius: 10px;
+  }
+}
+
+/* Cyber Button */
+.logout-button {
+  background: transparent;
+  border: 1px solid var(--neon-purple);
+  color: var(--neon-purple);
+  padding: 0.8rem 2rem;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: var(--neon-purple);
+    color: #000;
+    box-shadow: var(--glow) var(--neon-purple);
+  }
+}

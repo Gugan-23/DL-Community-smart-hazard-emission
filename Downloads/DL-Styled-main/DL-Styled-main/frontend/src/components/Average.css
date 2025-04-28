@@ -1,0 +1,47 @@
+
+  
+  /* Heading Styling */
+  .average-h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+  
+  /* Table Styling */
+  .average-table {
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  /* Table Header */
+  .average-thead {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .average-th, .average-td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+  }
+  
+  /* Table Rows */
+  .average-tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .average-tr:hover {
+    background-color: #ddd;
+  }
+  
+  /* Loading Text */
+  .average-p {
+    font-size: 18px;
+    color: #666;
+  }
+  

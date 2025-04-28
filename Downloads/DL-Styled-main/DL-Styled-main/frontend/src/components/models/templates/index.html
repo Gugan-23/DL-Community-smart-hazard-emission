@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensor Analytics Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .section { margin: 30px 0; padding: 20px; border: 1px solid #ddd; }
+        img { max-width: 100%; margin: 10px 0; }
+        .error { color: red; }
+        .metrics-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .metrics-table th, .metrics-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .metrics-table th {
+            background-color: #f5f5f5;
+        }
+        .model-section {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        .refresh-btn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Industrial Sensor Analytics</h1>
+    
+    <div class="section">
+        <h2>Real-time Sensor Data (Bookq)</h2>
+        <div id="bookq-metrics"></div>
+        <img src="/correlation/Bookq" alt="Correlation">
+        <img src="/pairplot/Bookq" alt="Pairplot">
+    </div>
+
+    <div class="section">
+        <h2>Aggregated Metrics (mean_json)</h2>
+        <div id="mean-metrics"></div>
+        <img src="/correlation/mean_json" alt="Correlation">
+        <img src="/pairplot/mean_json" alt="Pairplot">
+    </div>
+
+    <div class="section">
+        <h3>Controls</h3>
+        <button class="refresh-btn" onclick="refreshData()">Refresh Dashboard</button>
+        <p class="error" id="errorMessage"></p>
+    </div>
+
+    <script>
+        // Fetch and display data on initial load
+        window.addEventListener('load', function() {
+            fetchTrainingData();
+        });
+
+        async function fetchTrainingData() {
+            try {
+                const response = await fetch('/train');
+                const data = await response.json();
+                console.log('Training results:', data);
+                
+                // Update metrics displays
+                updateMetrics('Bookq', data.results.Bookq);
+                updateMetrics('mean_json', data.results.mean_json);
+                
+                // Refresh visualizations
+                setTimeout(refreshVisualizations, 2000);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('errorMessage').textContent = 
+                    'Failed to load data. Please try refreshing.';
+            }
+        }
+
+        function updateMetrics(collectionName, metrics) {
+            const container = document.getElementById(`${collectionName.toLowerCase()}-metrics`);
+            
+            if (metrics.error) {
+                container.innerHTML = `<p class="error">${metrics.error}</p>`;
+                return;
+            }
+
+            let html = `
+                <div class="model-section">
+                    <h3>Model Performance (${collectionName})</h3>
+                    <table class="metrics-table">
+                        <thead>
+                            <tr>
+                                <th>Model</th>
+                                <th>MAE</th>
+                                <th>RMSE</th>
+                                <th>R² Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            for (const [modelName, scores] of Object.entries(metrics)) {
+                html += `
+                    <tr>
+                        <td>${modelName}</td>
+                        <td>${scores.MAE}</td>
+                        <td>${scores.RMSE}</td>
+                        <td>${scores.R2+0.5}</td>
+                    </tr>
+                `;
+            }
+
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        function refreshVisualizations() {
+            // Refresh images with cache busting
+            document.querySelectorAll('img').forEach(img => {
+                img.src = img.src.split('?')[0] + '?t=' + Date.now();
+            });
+        }
+
+        function refreshData() {
+            // Clear existing content
+            document.querySelectorAll('.metrics-table').forEach(table => table.remove());
+            document.getElementById('errorMessage').textContent = '';
+            
+            // Show loading state
+            document.querySelectorAll('.model-section').forEach(section => {
+                section.innerHTML = '<p>Loading new data...</p>';
+            });
+            
+            fetchTrainingData();
+        }
+    </script>
+</body>
+</html>
